@@ -1,0 +1,155 @@
+import numpy as np
+import copy
+
+def big_function(board):
+    a=0
+    b=0
+    #does for ship lenght one
+    for rows in board:
+        for nums in rows:
+            if(nums==0):
+                 board[a][b]= ships[0]
+            b=b+1
+        a=a+1
+        b=0
+    
+
+    #horizontal
+    a=0
+    b=0
+    lenght=2
+    while (lenght<=width):
+        for rows in board:
+            counter=lenght
+            while(b<width):
+                if(rows[b]!= -1 and rows[b]!= -2):
+                    counter=counter-1
+
+                else:
+                    counter=lenght
+
+                if(counter==0):
+                    counter=lenght
+                    while(counter>0):
+                        board[a][b-counter+1] = board[a][b-counter+1] + ships[lenght-1]
+                        counter=counter-1
+                    counter=1
+                b=b+1
+
+            a=a+1
+            b=0
+
+        lenght=lenght +1
+        a=0
+
+
+       #vertical
+    a=0
+    b=0
+    lenght=2
+    while (lenght<=height):
+        d=0
+        while(d<width):
+            col = [inner[d] for inner in board]
+            counter=lenght
+            while(a<height):
+                if(col[a]!= -1 and col[a]!= -2):
+                    counter=counter-1
+
+                else:
+                    counter=lenght
+
+                if(counter==0):
+                    counter=lenght
+                    while(counter>0):
+                        board[a-counter+1][b] = board[a-counter+1][b] + ships[lenght-1]
+                        counter=counter-1
+                    counter=1
+                a=a+1
+
+            b=b+1
+            a=0
+            d=d+1
+
+
+        lenght=lenght +1
+        b=0
+        d=0
+
+    return board
+
+
+
+
+
+ships=[0,2,0,0,0,0,0,0]
+height=8
+width=8
+boards = [[0 for i in range(width)] for j in range(8)]
+
+boards[0] = [ 0, 0,-1,-1,-1,-1,-1,-1]
+boards[1] = [-1,-1,-1,-1,-1,-1,-1,-1]
+boards[2] = [-1,-1,-1,-1,-1, 0,-1,-1]
+boards[3] = [-1,-1,-1,-1,-1, 0,-1,-1]
+boards[4] = [-1,-1,-1,-1,-1,-1,-1,-1]
+boards[5] = [-1,-1,-1,-1,-1,-1,-1, 0]
+boards[6] = [ 0,-1,-1,-1,-1,-1,-1,-1]
+boards[7] = [-1, 0,-1,-1,-1,-1,-1, 0]
+
+
+base= copy.deepcopy(boards)
+
+
+bourds = big_function(boards)
+
+m=copy.deepcopy(bourds)
+print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in boards]))
+    
+
+solutions = np.argwhere(boards == np.amax(boards))
+
+
+min = 99999999999
+real_solution=solutions[0]
+c=0
+min=9999
+
+while (len(solutions)>c):
+    q=copy.deepcopy(base)
+    q=np.array(q)
+    a=solutions[c][0]
+    b=solutions[c][1]
+    q[a][b]=-1
+    
+    q=big_function(q)
+    
+    q[q<0] = 0
+    
+
+    j=np.sum(q)
+    print(j)
+    if(min>j):
+        real_solution=solutions[c]
+        min=copy.deepcopy(np.sum(q))
+
+    c=c+1
+m=np.array(m)
+print()
+print()
+print(np.amax(m))
+print(real_solution)
+m[m<0] = 0
+
+print(np.sum(m))
+
+print(min)
+
+
+
+
+
+
+
+
+  
+

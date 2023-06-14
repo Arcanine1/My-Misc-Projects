@@ -1,13 +1,13 @@
 pacman::p_load(dendextend)
 
 #defines numbers of clusters
-num <- 7
+num <- 5
 
 #reads in data
 time <- read.csv("~/Desktop/Time.csv", row.names = 1)
 
 #converts to dist
-distance_time <- dist(time)
+distance_time <- dist(time, method = "manhattan")
 
 #creates cluster
 hclust_time <- hclust(distance_time)

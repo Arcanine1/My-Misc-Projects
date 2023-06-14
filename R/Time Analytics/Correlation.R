@@ -1,10 +1,14 @@
 pacman::p_load(lars, caret)
 
+#gets data
 time <- read.csv("~/Desktop/Time.csv", row.names = 1)
 
-time$progress <- c(1:nrow(time)) # nolint
+#adds a time column
+time$progress <- c(1:nrow(time)) 
 
-for(i in 1:(ncol(time) - 1)) {      # for-loop over columns # nolint: seq_linter.
+ # for-loop over columns 
+for(i in 1:(ncol(time) - 1)) {   
+    #computes regression between time and the current column  
     linreg.lm <- lm(as.matrix(time[,i]) ~ time$progress)
 
     #gets col name

@@ -1,6 +1,4 @@
 # Function to combine two columns and remove the original columns
-#inpupts column names and data
-#outputs all data
 combiner <- function(data, colnew, col1, col2){
   data[colnew] <- data[col1] + data[col2]
   data <- data[, !(colnames(data) %in% c(col1, col2))]

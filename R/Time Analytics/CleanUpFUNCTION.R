@@ -1,9 +1,13 @@
 # Function to combine two columns and remove the original columns
 combiner <- function(time, colnew, col1, col2){
+
+  #adds columns
   time[colnew] <- time[col1] + time[col2]
+
+  #deletes old column
   time <- time[, !(colnames(time) %in% c(col1, col2))]
   
-    time
+  time
 }
 
 # Function to Clean up

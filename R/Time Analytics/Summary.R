@@ -1,7 +1,12 @@
 pacman:: p_load("psych")
 
-#reads data
+source("CleanUpFUNCTION.R")
+
+#gets data
 time <- read.csv("~/Desktop/Time.csv", row.names = 1)
+
+#merges data
+time <- CleanUp(time)
 
 #gets stats I want
 printing <- describe(time)[c(3:6,8:9)]

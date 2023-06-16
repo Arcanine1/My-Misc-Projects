@@ -1,7 +1,11 @@
 pacman::p_load(lars, caret)
+source("CleanUpFUNCTION.R")
 
 #gets data
 time <- read.csv("~/Desktop/Time.csv", row.names = 1)
+
+#merges data
+time <- CleanUp(time)
 
 #adds a time column
 time$progress <- c(1:nrow(time)) 

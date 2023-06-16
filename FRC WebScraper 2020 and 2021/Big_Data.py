@@ -3,14 +3,16 @@ import numpy as np  # Used to solve overdetermined simultaneous equations where 
 from scipy.optimize import nnls  # Used to solve overdetermined simultaneous equations where negative values are not fine
 from openpyxl import load_workbook  # Used to export data to excel sheet
 
+event_code = "msbbb"
+year = 2021
 
-URL= "https://www.thebluealliance.com/events/2021"
+URL= "https://www.thebluealliance.com/events/" + year
 page = requests.get(URL)
 code = str(page.text)
 start=1
 x=0
 start = code.find("event_lab", start + 1)
-start=code.find("msbbb",start+1)
+start=code.find(event_code,start+1)
 
 
 while(500>x):

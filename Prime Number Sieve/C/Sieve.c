@@ -3,12 +3,12 @@
 #include <math.h>
 #include <stdbool.h>
 
-//returns number of appearences of target in int arr[] with size size
+//returns number of appearences of target in bool arr[] with size size
 int count(bool arr[] ,int size, int target ){
 
     int count =0;
 
-    //iterates through
+    //counts appearences
     for (int i = 0; i < size; i++) {
         if(arr[i]== target){
             count++;
@@ -25,18 +25,17 @@ int main() {
     int size =  pow(10,9);
     bool* numbers = (bool*) malloc(size * sizeof(bool)); //defines array
 
+    //intial values
     for (int i = 2; i < size; i++) {
     numbers[i] = true;
     }   
-
     numbers[0]= false;
     numbers[1]=false;
 
     int factor=1;  //current factor
     int root = sqrt(size);
-    int num=3; //num evaluating currently
-    int multiple =factor; //used to optimize the sieve
-    float top = size/factor; //used to optimize the sieve
+    int multiple =factor; //used in sieve
+    float top = size/factor; //used in sieve
 
     while(factor<root){
 
@@ -50,7 +49,7 @@ int main() {
         }
 
         multiple =factor;
-        top = size/factor + 1;
+        top = size/factor + 1; //upperbound of loop
 
         //sets all multiples of current factor to not prime
         while(multiple<top){
@@ -60,7 +59,7 @@ int main() {
     
     }
 
-    
+    //output
     printf("%d" , count(numbers,size,true));
     free(numbers);
 

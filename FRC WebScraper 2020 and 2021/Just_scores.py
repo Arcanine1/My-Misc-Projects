@@ -9,11 +9,14 @@ just_teams_array=[]
 just_scores_array=[]
 expected_score_array=[]
 
+year = 2021
+event_code = "mibg"
+
 while(n<33):
 
     print(n)
 
-    URL="https://www.thebluealliance.com/match/2021mibg_qm"+str(n)
+    URL="https://www.thebluealliance.com/match/" + year + event_code + "_qm"+str(n)
     page = requests.get(URL)
     code = str(page.text)  # These two lines get the HTML and put it into a string so that it can be searched
     i = 1

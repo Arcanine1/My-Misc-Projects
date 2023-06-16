@@ -1,0 +1,1 @@
+Hello this is a collection of some of my projects. Each folder has a readme so you can use and look at if you want.

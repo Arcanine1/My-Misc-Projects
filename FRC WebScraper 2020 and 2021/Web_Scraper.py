@@ -379,18 +379,18 @@ generator_level_points=[]
 
 year=2020
 #Where you type in the tournament ID
-match_code= "mimcc"
+event_code= "mimcc"
 
 l=1
 big_loop_parameter=0
-URL = "https://www.thebluealliance.com/event/"+str(year) + match_code
+URL = "https://www.thebluealliance.com/event/"+str(year) + event_code
 page = requests.get(URL)
 code= str(page.text)
 
 #Gets the number of matches from TBA
 index=0
 while(l<100000):
-    index = code.find("2020" + match_code + "_qm"+str(l),index+1)
+    index = code.find("2020" + event_code + "_qm"+str(l),index+1)
     if(index==-1):
         break
     l=l+1
@@ -462,7 +462,7 @@ while(c<1000000):
 
 #Gets data from qualification matches
 m=0
-URL = "https://www.thebluealliance.com/match/2020" +match_code +"_qm"
+URL = "https://www.thebluealliance.com/match/2020" +event_code +"_qm"
 while l<big_loop_parameter:
 
     #This looks like a mess but is actually just everything that you returned in the get stuff method
@@ -481,7 +481,7 @@ while l<big_loop_parameter:
 #Does the exact same thing as loop above but with playoff matches
 #The if statements use the playoff matches array to help construct the URL that will be searched in the get stuff method
 b=0
-URL= "https://www.thebluealliance.com/match/2020" +match_code +"_"
+URL= "https://www.thebluealliance.com/match/2020" +event_code +"_"
 while playoff_matches_array[b]!=None:
     match_type_adder=""
     if(playoff_matches_array[b]==1):

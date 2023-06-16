@@ -1,7 +1,9 @@
 import numpy as np
 import copy
 
+#outputs the board with the correct amount of weight to define how likely a ship is to be there
 def big_function(board):
+    
     a=0
     b=0
     #does for ship lenght one
@@ -43,7 +45,7 @@ def big_function(board):
         a=0
 
 
-       #vertical
+    #vertical
     a=0
     b=0
     lenght=2
@@ -82,66 +84,71 @@ def big_function(board):
 
 
 
-ships=[0,2,0,0,0,0,0,0]
-height=8
+ships=[0,2,0,0,0,0,0,0] #number os ships of each size
+
+#defines board
+height=8 
 width=8
-boards = [[0 for i in range(width)] for j in range(8)]
+board = [[0 for i in range(height)] for j in range(width)]
 
-boards[0] = [ 0, 0,-1,-1,-1,-1,-1,-1]
-boards[1] = [-1,-1,-1,-1,-1,-1,-1,-1]
-boards[2] = [-1,-1,-1,-1,-1, 0,-1,-1]
-boards[3] = [-1,-1,-1,-1,-1, 0,-1,-1]
-boards[4] = [-1,-1,-1,-1,-1,-1,-1,-1]
-boards[5] = [-1,-1,-1,-1,-1,-1,-1, 0]
-boards[6] = [ 0,-1,-1,-1,-1,-1,-1,-1]
-boards[7] = [-1, 0,-1,-1,-1,-1,-1, 0]
+#0 is a open spot and -1 is a spot where a ship can't be. Modify this array as game goes on
+board[0] = [ 0, 0,-1,-1,-1,-1,-1,-1]
+board[1] = [-1,-1,-1,-1,-1,-1,-1,-1]
+board[2] = [-1,-1,-1,-1,-1, 0,-1,-1]
+board[3] = [-1,-1,-1,-1,-1, 0,-1,-1]
+board[4] = [-1,-1,-1,-1,-1,-1,-1,-1]
+board[5] = [-1,-1,-1,-1,-1,-1,-1, 0]
+board[6] = [ 0,-1,-1,-1,-1,-1,-1,-1]
+board[7] = [-1, 0,-1,-1,-1,-1,-1, 0]
 
+#defines game state and probability
+gameState= copy.deepcopy(board)
+probabilityDensity = big_function(board)
+outputProbabilityDensity =copy.deepcopy(probabilityDensity)
 
-base= copy.deepcopy(boards)
-
-
-bourds = big_function(boards)
-
-m=copy.deepcopy(bourds)
-print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in boards]))
+#output
+print('\n'.join(['\t'.join([str(cell) for cell in row]) for row in probabilityDensity]))
     
+#finds solutions    
+solutions = np.argwhere(probabilityDensity == np.amax(probabilityDensity))
 
-solutions = np.argwhere(boards == np.amax(boards))
 
-
+#to search between the solution and pick the best one iterate through the next move
 min = 99999999999
 real_solution=solutions[0]
-c=0
-min=9999
 
+c=0
+#looks one move ahead
 while (len(solutions)>c):
-    q=copy.deepcopy(base)
-    q=np.array(q)
+    probabilityDensityinUse=copy.deepcopy(gameState)
+    probabilityDensityinUse=np.array(probabilityDensityinUse)
+
+    #sets solution to -1 as if we did that move
     a=solutions[c][0]
     b=solutions[c][1]
-    q[a][b]=-1
+    probabilityDensityinUse[a][b]=-1
     
-    q=big_function(q)
-    
-    q[q<0] = 0
-    
+    #checks effectivness of solution
+    probabilityDensityinUse=big_function(probabilityDensityinUse)
+    probabilityDensityinUse[probabilityDensityinUse<0] = 0
+    j=np.sum(probabilityDensityinUse)
 
-    j=np.sum(q)
     print(j)
+    #defines new best solution if neccessary
     if(min>j):
         real_solution=solutions[c]
-        min=copy.deepcopy(np.sum(q))
+        min=copy.deepcopy(np.sum(probabilityDensityinUse))
 
     c=c+1
-m=np.array(m)
+
+#output
+outputProbabilityDensity=np.array(outputProbabilityDensity)
 print()
 print()
-print(np.amax(m))
+print(np.amax(outputProbabilityDensity))
 print(real_solution)
-m[m<0] = 0
-
-print(np.sum(m))
-
+outputProbabilityDensity[outputProbabilityDensity<0] = 0 #all negative values become 0
+print(np.sum(outputProbabilityDensity))
 print(min)
 
 

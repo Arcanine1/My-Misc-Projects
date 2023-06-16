@@ -6,11 +6,13 @@ import time
 start = time.time()
 
 size=10**8 #search range
-numbers  = [True] * size#defines array
+
+# defines array
+numbers  = [True] * size
 numbers[0] , numbers[1]= False,False
+
 factor=1  #current factor
 root = math.sqrt(size)
-num=3 #num evaluating currently
 
 while(factor<root):
 
@@ -32,6 +34,7 @@ while(factor<root):
 
         
 
+#output
 print(numbers.count(True))
 end = time.time()
 print("Seconds:" + str(end - start))

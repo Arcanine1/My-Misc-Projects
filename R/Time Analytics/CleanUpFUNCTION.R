@@ -1,28 +1,26 @@
 # Function to combine two columns and remove the original columns
-combiner <- function(time, colnew, col1, col2){
-  time[colnew] <- time[col1] + time[col2]
-  time <- time[, !(colnames(time) %in% c(col1, col2))]
+#inpupts column names and data
+#outputs all data
+combiner <- function(data, colnew, col1, col2){
+  data[colnew] <- data[col1] + data[col2]
+  data <- data[, !(colnames(data) %in% c(col1, col2))]
   
-    time
+    data
 }
 
 # Function to Clean up
-CleanUp <- function(time) {
+#inputs and outputs data
+CleanUp <- function(data) {
 
-  # Combine "Internships..other." and "Palav" into "Internships"
-  time <- combiner(time, "Internships", "Internships..other.", "Palav")
+  data <- combiner(data, "Internships", "Internships..other.", "Palav")
 
-  # Combine "RW" and "hanging.out.with.friends" into "friends"
-  time <- combiner(time, "friends", "RW", "hanging.out.with.friends")
+  data <- combiner(data, "friends", "RW", "hanging.out.with.friends")
 
-  # Combine "FaceTime" and "Texting" into "OnlineSocial"
-  time <- combiner(time, "OnlineSocial", "FaceTime", "Texting")
+  data <- combiner(data, "OnlineSocial", "FaceTime", "Texting")
 
-  # Combine "Family.Time..walking.etc." and "Golf.Dad.Sports" into "Family"
-  time <- combiner(time, "Family", "Family.Time..walking.etc.", "Golf.Dad.Sports")
+  data <- combiner(data, "Family", "Family.Time..walking.etc.", "Golf.Dad.Sports")
 
-  # Combine "Technical.Projects" and "Other.Projects" into "projects"
-  time <- combiner(time, "projects", "Technical.Projects", "Other.Projects")
+  data <- combiner(data, "projects", "Technical.Projects", "Other.Projects")
 
-   time
+   data
 }

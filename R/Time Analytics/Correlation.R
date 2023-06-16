@@ -1,11 +1,10 @@
+#PURPOSE: Output the correlation between each variable and time
+
 pacman::p_load(lars, caret)
-source("CleanUpFUNCTION.R")
 
 #gets data
-time <- read.csv("~/Desktop/Time.csv", row.names = 1)
-
-#merges data
-time <- CleanUp(time)
+source("importFUNCTION.R")
+time<- importAndCleanData()
 
 #adds a time column
 time$progress <- c(1:nrow(time)) 
@@ -15,16 +14,16 @@ for(i in 1:(ncol(time) - 1)) {
     #computes regression between time and the current column  
     linreg.lm <- lm(as.matrix(time[,i]) ~ time$progress)
 
-    #gets col name
+    #prints col name
     colName <-  names(time)[i]
     print(colName)
 
-    #gets slope
+    #prints slope
     slope <- coef(linreg.lm)[2]
     slope <- as.numeric(slope)
     print(round(slope,3))
 
-    #gets r^2
+    #prints r^2
     r2 <- summary(linreg.lm)$r.squared
     print(100*round(r2,3))
     cat("\n")

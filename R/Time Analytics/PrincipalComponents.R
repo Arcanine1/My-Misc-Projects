@@ -1,16 +1,13 @@
-source("CleanUpFUNCTION.R")
+#PURPOSE: Creates Principal Components
 
 #gets data
-time <- read.csv("~/Desktop/Time.csv", row.names = 1)
-
-#merges data
-time <- CleanUp(time)
+source("importFUNCTION.R")
+time<- importAndCleanData()
 
 #converts to principal components
 pc <- prcomp(time)
 
-#shows principal components
+#displays principal components
+show(pc)
 summary(pc)
-
-#shows biplot
 biplot(pc)

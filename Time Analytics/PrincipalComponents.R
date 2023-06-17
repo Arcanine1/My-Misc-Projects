@@ -1,7 +1,7 @@
 #PURPOSE: Creates Principal Components
 
 #gets data
-source("importFUNCTION.R")
+source("Time Analytics/importFUNCTION.R")
 time<- importAndCleanData()
 
 #converts to principal components

@@ -3,7 +3,7 @@
 pacman::p_load(lars, caret)
 
 #gets data
-source("importFUNCTION.R")
+source("Time Analytics/importFUNCTION.R")
 time<- importAndCleanData()
 
 #adds a time column

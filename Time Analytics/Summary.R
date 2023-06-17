@@ -3,7 +3,7 @@
 pacman:: p_load("psych")
 
 #gets data
-source("importFUNCTION.R")
+source("Time Analytics/importFUNCTION.R")
 time<- importAndCleanData()
 
 #gets stats I want

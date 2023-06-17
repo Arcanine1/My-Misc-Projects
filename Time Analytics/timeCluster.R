@@ -6,7 +6,7 @@ pacman::p_load(dendextend)
 num <- 5
 
 #gets data
-source("importFUNCTION.R")
+source("Time Analytics/importFUNCTION.R")
 time<- importAndCleanData()
 
 #Creates cluster

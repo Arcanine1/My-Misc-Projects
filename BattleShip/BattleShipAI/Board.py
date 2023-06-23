@@ -9,6 +9,7 @@ class Board:
         self.numOfShips = 0
         self.gameState = [[Tile() for i in range(height)] for j in range(width)]
         self._randomizeBoard(ships)
+        self.done = False
 
     #updates state of board. 
     #if returns false it is not a valid hit.
@@ -39,7 +40,14 @@ class Board:
          if(self._shipSunk(-tile.state)):
             self._sorroundShip(-tile.state)
         
+         if(self.numOfShips==0):
+            self.done = True
+         
          return True
+    
+    def printBoard(self):
+        for row in self.gameState:
+            print('  '.join(str(tile.state) for tile in row))
 
     #creates a new board. Returns false if fails 100 times
     #ships array should be like so,
@@ -54,7 +62,7 @@ class Board:
         
         #adds ships of all lengths
         failed= False
-        for i in range (1,100):
+        while(True):
             length = 1
             for num in ships:
                 while (num>0):
@@ -66,8 +74,9 @@ class Board:
                         break
 
                 if(failed): 
+                    failed = False
                     break
-
+                
                 length=length+1
             
             if(failed):
@@ -85,9 +94,10 @@ class Board:
             for tile in row:
                 if(tile.state == ID):
                     Sunk = False
-        
+
+        #returns true if ship sink and decreases ship count
         if(Sunk):
-            print("ship sunk")
+            self.numOfShips = self.numOfShips-1
             return True
         
     #inputs the ID of the sunken ship and hits every tile around the ship    

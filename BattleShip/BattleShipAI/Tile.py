@@ -9,8 +9,8 @@ class Tile:
     #if you hit a spot you have not hit before returns True and updates the board.
     def hit(self):
 
-        #if already hit return -1
-        if(self.state == -1 or self.state == -2):
+        #if already hit return false
+        if(self.state <0):
             return False
 
         if(self.state==0):

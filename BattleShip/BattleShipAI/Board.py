@@ -35,7 +35,7 @@ class Board:
          
          #returns if its a miss
          if(tile.state == -1):
-             return True
+             return "Miss"
          
          if(self._shipSunk(-tile.state)):
             self._sorroundShip(-tile.state)
@@ -43,7 +43,7 @@ class Board:
          if(self.numOfShips==0):
             self.done = True
          
-         return True
+         return "Hit"
     
     def printBoard(self):
         for row in self.gameState:

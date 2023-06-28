@@ -3,8 +3,7 @@ from Tile import Tile
 import numpy as np
 import neat
 import os
-import copy
-import visualize
+import math
 
 def showInput(input):
     for i in range(8):
@@ -25,14 +24,6 @@ def normalizeBoard(board):
         inputs[i]= item
     return inputs
 
-#For each move the fitness function is the (((3/move Number) +1)^streak)^(1/attempts to make move)
-def CalculateFitness(moves,streak,attempts):
-    value = 3/moves
-    value = value+1
-    value = value ** streak
-    value = value**(attempts**-1)
-    return value
-
 
 def eval_genomes(genomes,config):
     for genome_id, genome in genomes:
@@ -41,38 +32,34 @@ def eval_genomes(genomes,config):
         fitness = 0
         for i in range (0,10):
             board = Board(rows,columns,ships)
-            streak =5
-            moveNumber =1
             while(not board.done):
                 inputs= normalizeBoard(board)
                 #gets outputs
                 outputList = net.activate(inputs)
-
-                attempts= 1
+                movenumber =1
                 #loops through best outputs until a valid one is found
                 while(True):
                     output = int(np.argmax(outputList))
                     rowIndex,columnIndex = int(output/columns), output%columns
                     result = board.updateState(rowIndex+1,columnIndex+1)
+                    movenumber =movenumber+1
 
+                    #hits the same tile twice
                     if(result == False):
-                        attempts= attempts+1
+                        fitness=  fitness-1
                         outputList[output]= -1000
+                    else:
+                        break
 
-                    elif(result=="Hit"):
-                        fitness = CalculateFitness(moveNumber,streak,attempts) + fitness
-                        streak =5
-                        break
-                    
-                    elif(result== "Miss"):
-                        if(streak>1):
-                            streak=streak-1
-                        break
-                    
-                moveNumber=moveNumber+1 
+                    # elif(result=="Hit"):
+                    #     fitness = fitness+25/math.sqrt(movenumber)
+                    #     break
+
+                    # elif(result== "Miss"):
+                    #     fitness=fitness-1
+                    #     break
 
         genome.fitness= fitness
-        print(genome_id)
 
 def runAI():
     local_dir = os.path.dirname(__file__)
@@ -84,13 +71,12 @@ def runAI():
 
     # Create the population, which is the top-level object for a NEAT run.
     p = neat.Population(config)
-    p=neat.Checkpointer.restore_checkpoint("neat-checkpoint-292")
 
     # Add a stdout reporter to show progress in the terminal.
     p.add_reporter(neat.StdOutReporter(True))
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
-    p.add_reporter(neat.Checkpointer(50))
+    p.add_reporter(neat.Checkpointer(time_interval_seconds= 1000))
 
 
     # Run for up to 300 generations.

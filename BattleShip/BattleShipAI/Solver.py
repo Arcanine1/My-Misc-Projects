@@ -16,7 +16,7 @@ class Solver:
         solutions = np.argwhere(PDF == np.amax(PDF))
         real_solution = solutions[0]
 
-        Solver._showHeatMap
+        Solver._showHeatMap(PDF)
         return (real_solution[0]+1,real_solution[1]+1)
 
         
@@ -31,7 +31,7 @@ class Solver:
     #creates Probability distribution function
     def _createPDF(Board):
         PDF = np.zeros(shape= (Board.height,Board.width))
-        for i in range(1,1000):
+        for i in range(0,100000):
             #re rolls ships
             Current_Board =  copy.deepcopy(Board)
             Current_Board.eraseShips()

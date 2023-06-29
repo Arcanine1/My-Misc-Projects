@@ -1,3 +1,4 @@
+import copy
 from Tile import Tile
 import random
 
@@ -63,28 +64,27 @@ class Board:
         if(len(ships)+1 > self.height and len(ships)+1 > self.width):
             return False
         
-        #adds ships of all lengths
-        failed= False
         while(True):
+            boardCopy = copy.deepcopy(self)
+            failed = False
             length = 1
+
+            #adds ships by length
             for num in ships:
-                while (num>0):
-                    #if it ever fails intiate restart board and try again
-                    if(self._addRandomShip(length)):
-                        num=num-1
+                while num > 0:
+                    if boardCopy._addRandomShip(length):
+                        num -= 1
                     else:
-                        failed=True
+                        failed = True
                         break
 
-                if(failed): 
-                    failed = False
+                if failed:
                     break
-                
-                length=length+1
-            
-            if(failed):
-                self.gameState = [[Tile() for i in range(self.height)] for j in range(self.width)]
-            else:
+
+                length += 1
+
+            if not failed:
+                self.gameState = copy.deepcopy(boardCopy.gameState)
                 return True
             
 
@@ -190,13 +190,13 @@ class Board:
             
             #checks for validity of ship
             valid = True 
-            if(column + length -1  > self.width):
+            if(column + length-1  > self.width):
                 return False
             
             #checks for validity of ship
             for i in range (0,length):
                 #ensures there are no ships in the sorrounding
-                if(self.gameState[row-1][column+i-1].state <1):
+                if(self.gameState[row-1][column+i-1].state >1):
                     valid= False
             
             if(not valid):
@@ -218,7 +218,7 @@ class Board:
             valid = True 
             for i in range (0,length):
                 #ensures there are no ships in the sorrounding
-                if(self.gameState[row+i-1][column-1].state <1):
+                if(self.gameState[row+i-1][column-1].state >1):
                     valid= False
             
             if(not valid):
@@ -238,16 +238,26 @@ class Board:
     def _addRandomShip(self, length):
 
         for i in range (0,25):
-            #creates a random position
-            row = random.randint(1,self.height-length+1)
-            column = random.randint(1,self.width-length+1)
+            #creates orientation
             orientation= "H"
 
             if(random.random() > .5):
                 orientation = "V"
 
+            #creates random position
+            column = random.randint(1,self.width)
+            row = random.randint(1,self.height)
+
+            #changes one axis to make it valid
+            if(orientation == "V"):
+                row = random.randint(1,self.height-length+1)
+
+            if(orientation == "H"):
+                column = random.randint(1,self.width-length+1)
+
             if(self._newShip(row,column,length,orientation)):
                 return True
+            
         return False
     
 

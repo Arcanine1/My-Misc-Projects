@@ -8,7 +8,8 @@ class Board:
         self.width = width
         self.numOfShips = 0
         self.gameState = [[Tile() for i in range(height)] for j in range(width)]
-        self._randomizeBoard(ships)
+        self.ships = ships
+        self.randomizeBoard(ships)
         self.done = False
 
     #updates state of board. 
@@ -38,7 +39,9 @@ class Board:
              return "Miss"
          
          if(self._shipSunk(-tile.state)):
-            self._sorroundShip(-tile.state)
+            #sorrounds ship and gets the length
+            length = self._sorroundShip(-tile.state)
+            self.ships[length-1] = self.ships[length-1] -1
         
          if(self.numOfShips==0):
             self.done = True
@@ -54,7 +57,7 @@ class Board:
     #first entry is number of ships of size 1
     #second is number of ships of size 2
     #etc
-    def _randomizeBoard(self,ships):
+    def randomizeBoard(self,ships):
 
         #if impossible to create returns false
         if(len(ships)+1 > self.height and len(ships)+1 > self.width):
@@ -83,6 +86,15 @@ class Board:
                 self.gameState = [[Tile() for i in range(self.height)] for j in range(self.width)]
             else:
                 return True
+            
+
+    #erases Ships
+    #keeps all misses, hits, and sunk ships
+    def eraseShips(self):
+        for row in self.gameState:
+            for tile in row:
+                if(tile.state >0):
+                    tile.state = 0
 
 
     #takes ship ID and checks if any more of the ship remains on the board
@@ -101,6 +113,7 @@ class Board:
             return True
         
     #inputs the ID of the sunken ship and hits every tile around the ship    
+    #returns lenght of ship
     def _sorroundShip(self,ID):
 
         found = False
@@ -163,7 +176,8 @@ class Board:
             for i in range(-1,2):
                 for j in range (-1,length+1):
                     self.updateState(rowIndex+1 + j,columnIndex+1 + i)
-
+        
+        return length
 
     # adds a new ship. Returns false if invalid
     def _newShip(self,row,column,length,orienation):
@@ -181,7 +195,8 @@ class Board:
             
             #checks for validity of ship
             for i in range (0,length):
-                if(self.gameState[row-1][column+i-1].state != 0):
+                #ensures there are no ships in the sorrounding
+                if(self.gameState[row-1][column+i-1].state <1):
                     valid= False
             
             if(not valid):
@@ -202,7 +217,8 @@ class Board:
             #checks for validity of ship
             valid = True 
             for i in range (0,length):
-                if(self.gameState[row+i-1][column-1].state != 0):
+                #ensures there are no ships in the sorrounding
+                if(self.gameState[row+i-1][column-1].state <1):
                     valid= False
             
             if(not valid):

@@ -7,5 +7,6 @@ width=8
 ships = [0,3,3,1]
 
 board = Board(height,width,ships)
+board.updateState(1,1)
 
 Solver.getBestMove(board)

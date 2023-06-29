@@ -31,7 +31,7 @@ class Solver:
     #creates Probability distribution function
     def _createPDF(Board):
         PDF = np.zeros(shape= (Board.height,Board.width))
-        for i in range(0,100000):
+        for i in range(0,100):
             #re rolls ships
             Current_Board =  copy.deepcopy(Board)
             Current_Board.eraseShips()
@@ -47,12 +47,13 @@ class Solver:
                     tile = row[tile_index]
                     if tile.state > 0:
                         tile.state = 1
+                    else:
+                        tile.state=0
+                        
                     states[row_index][tile_index] = tile.state
                     tile_index += 1
                 row_index += 1
 
-                        
-            
             #adds to PDF
             PDF = np.add(states,PDF)
 

@@ -10,7 +10,7 @@ class Board:
         self.numOfShips = 0
         self.gameState = [[Tile() for i in range(height)] for j in range(width)]
         self.ships = ships
-        self.randomizeBoard(ships)
+        self.createValidRandomBoard(ships)
         self.done = False
 
     #updates state of board. 
@@ -53,40 +53,26 @@ class Board:
         for row in self.gameState:
             print('  '.join(str(tile.state) for tile in row))
 
-    #creates a new board. Returns false if fails 100 times
-    #ships array should be like so,
-    #first entry is number of ships of size 1
-    #second is number of ships of size 2
-    #etc
-    def randomizeBoard(self,ships):
 
-        #if impossible to create returns false
-        if(len(ships)+1 > self.height and len(ships)+1 > self.width):
-            return False
-        
+    #for a board to valid, the erase ships must match
+    #this method creates a board that satisfies that condition 
+    def createValidRandomBoard(self,ships):
+        #creates an original version of erase ships
+        otherCopy = copy.deepcopy(self) 
+        otherCopy.eraseShips()
+
         while(True):
-            boardCopy = copy.deepcopy(self)
-            failed = False
-            length = 1
+            #rerolls ships
+            Copy = copy.deepcopy(self)   
+            Copy.justMisses()
+            Copy._randomizeBoard(ships)
 
-            #adds ships by length
-            for num in ships:
-                while num > 0:
-                    if boardCopy._addRandomShip(length):
-                        num -= 1
-                    else:
-                        failed = True
-                        break
+            Copy.eraseShips()
+            #checks if OG erase ships matches the rerolled erase Ships
+            if( Copy.gameState == otherCopy.gameState):
+                self.gameState = Copy.gameState
+                return
 
-                if failed:
-                    break
-
-                length += 1
-
-            if not failed:
-                self.gameState = copy.deepcopy(boardCopy.gameState)
-                return True
-            
 
     #erases Ships
     #keeps all misses, hits, and sunk ships
@@ -95,6 +81,13 @@ class Board:
             for tile in row:
                 if(tile.state >0):
                     tile.state = 0
+
+    def justMisses(self):
+        for row in self.gameState:
+            for tile in row:
+                if(tile.state != -1):
+                    tile.state = 0
+
 
 
     #takes ship ID and checks if any more of the ship remains on the board
@@ -108,8 +101,13 @@ class Board:
                     Sunk = False
 
         #returns true if ship sink and decreases ship count
+        #also transforms ship into misses
         if(Sunk):
             self.numOfShips = self.numOfShips-1
+            for row in self.gameState:
+                for tile in row:
+                    if(tile.state == -ID):
+                        tile.state =-1
             return True
         
     #inputs the ID of the sunken ship and hits every tile around the ship    
@@ -260,6 +258,38 @@ class Board:
             
         return False
     
+    #creates a new board. Board might not be valid
+    #ships array should be like so,
+    #first entry is number of ships of size 1
+    #second is number of ships of size 2
+    #etc
+    def _randomizeBoard(self,ships):
 
+        #if impossible to create returns false
+        if(len(ships)+1 > self.height and len(ships)+1 > self.width):
+            return False
+        
+        while(True):
+            boardCopy = copy.deepcopy(self)
+            failed = False
+            length = 1
+
+            #adds ships by length
+            for num in ships:
+                while num > 0:
+                    if boardCopy._addRandomShip(length):
+                        num -= 1
+                    else:
+                        failed = True
+                        break
+
+                if failed:
+                    break
+
+                length += 1
+
+            if not failed:
+                self.gameState = copy.deepcopy(boardCopy.gameState)
+                return True
         
         

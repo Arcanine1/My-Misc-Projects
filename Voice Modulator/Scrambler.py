@@ -1,8 +1,17 @@
 from Functions import *
 
-fileName = "Voice Modulator/Spanish.wav"
+fileName = "Voice Modulator/Test.wav"
 sound, fs = getData(fileName)
-plot(sound)
-scramble(sound)
-play(sound,fs)
+sound=sound*5
 
+
+sound = addNoise(sound,noiseLevel=.2)
+sound = modulateVolume(sound,variance=.2, amount=10)
+sound= lowPitched(sound,amount= 75)
+sound= lowPitched(sound,amount= 75)
+
+
+
+
+play(sound,fs)
+plot(sound)

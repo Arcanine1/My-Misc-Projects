@@ -55,3 +55,27 @@ class Sound():
         plt.xlabel("Time [s]")
         plt.ylabel("Amplitude")
         plt.show()
+
+    def plotFourierTransform(self):
+        size= self.sound.shape
+        halfSized = (size[0]//2,size[1])
+
+        fourierTransform = np.zeros(size, dtype= complex)
+        magnitudes = np.zeros(size)
+        positveFrequencies = np.zeros(halfSized)
+
+
+        for i in range(0,self.sound.shape[1]):
+            fourierTransform[:,i] = fft.fft(self.sound[:,i])
+            magnitudes[:,i] = np.abs(fourierTransform[:,i])
+            positveFrequencies[:,i] = magnitudes[:halfSized[0],i]
+        
+        frequency = np.linspace(start= 0, stop= halfSized[0], num = halfSized[0])
+
+        plt.plot(frequency, positveFrequencies[:, 0], label="Left channel")
+        plt.plot(frequency, positveFrequencies[:, 1], label="Right channel")
+        plt.legend()
+        plt.xlabel("frequency")
+        plt.ylabel("Multiple")
+        plt.show()
+

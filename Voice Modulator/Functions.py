@@ -5,6 +5,7 @@ from playsound import playsound
 import matplotlib.pyplot as plt
 import numpy as np
 import random
+import math
 
 
 
@@ -80,3 +81,40 @@ def plotFourierTransform(sound):
     plt.ylabel("Multiple")
     plt.show()
 
+
+def modulateSpeed(sound):
+
+    #creates start and lenght of slowed down portion
+    size= sound.shape[0]
+    start = random.randint(0,size)
+    length = int(random.gauss(size/3,size/10))
+
+    if(start+length > size):
+        overshoot = length+start -size
+        start = start-overshoot -10
+
+    if(length<0):
+        return
+
+    #slows down by adding "average entry" inbetween each entry for range
+    a=0
+    #saves entries from before and after
+    before = sound[:start]
+    middle= np.zeros((0,sound.shape[1]), dtype= "int16")
+    after = sound[start+length:]
+    while(a<length):
+        current = []
+        averaged = []
+        #creates tuple of length number of channels that will be appended
+        for i in range(0,sound.shape[1]):
+            current.append(sound[a + start,i])
+            averaged.append(int((sound[a+start,i] + sound[a+start+1,i])/2))
+
+        middle = np.vstack((middle,current),dtype= "int16")
+        middle = np.vstack((middle,averaged),dtype= "int16")
+        a= a+1
+        print(a/length)
+    #concatonates it all together
+    sound = np.concatenate((before,middle,after), dtype= "int16")
+    return sound
+    

@@ -1,7 +1,8 @@
 from Functions import *
 
-fileName = "Voice Modulator/Spanish.wav"
+fileName = "Voice Modulator/Music.wav"
 sound, fs = importSound(fileName= fileName)
-sound = modulateSpeed(sound)
-plot(sound)
-play(sound,int(1.7*fs))
+lowPitched(sound, amount=50)
+sound = modulateSpeed(sound,5)
+
+play(sound,int(1.75*fs))

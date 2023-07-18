@@ -29,11 +29,10 @@ def addNoise(sound,noiseLevel):
     if(noiseLevel<0):
         raise Exception ("Noise Level is negative")
 
-    #adds some noise
-    for i,row in enumerate(sound):
-        for j,entry in enumerate(row):
-            sound[i][j] = entry + random.gauss(0,entry*noiseLevel)
-    
+    noise = np.random.normal(0,abs(noiseLevel*sound),size= sound.shape)
+    sound = sound+noise
+    return sound
+
 #uses a low pass filter to make it low pitched
 def lowPitched(sound,amount):
 
@@ -82,39 +81,47 @@ def plotFourierTransform(sound):
     plt.show()
 
 
-def modulateSpeed(sound):
+def modulateSpeed(sound,amount):
+    start = 0
+    length =0
+    for i in range (0,amount):
+        #creates start and lenght of slowed down portion
+        size= sound.shape[0]
+        
+        start = random.randint(start+length+1000, int(sound.shape[0]))
+        length = int(random.gauss(size/5,size/10))
 
-    #creates start and lenght of slowed down portion
-    size= sound.shape[0]
-    start = random.randint(0,size)
-    length = int(random.gauss(size/3,size/10))
+        if(start+length > size):
+            return sound
 
-    if(start+length > size):
-        overshoot = length+start -size
-        start = start-overshoot -10
+        if(length<0):
+            return sound
 
-    if(length<0):
-        return
+        sound = _slowDownFactor2(sound,start,length)
+    
+    return sound
 
+
+def _slowDownFactor2(sound,start,length):
     #slows down by adding "average entry" inbetween each entry for range
-    a=0
+
     #saves entries from before and after
     before = sound[:start]
-    middle= np.zeros((0,sound.shape[1]), dtype= "int16")
+    middle= sound[start:start+length]
     after = sound[start+length:]
-    while(a<length):
-        current = []
-        averaged = []
-        #creates tuple of length number of channels that will be appended
-        for i in range(0,sound.shape[1]):
-            current.append(sound[a + start,i])
-            averaged.append(int((sound[a+start,i] + sound[a+start+1,i])/2))
+    averaged = np.zeros((length-1,middle.shape[1]), dtype= "int16")
 
-        middle = np.vstack((middle,current),dtype= "int16")
-        middle = np.vstack((middle,averaged),dtype= "int16")
-        a= a+1
-        print(a/length)
-    #concatonates it all together
+    #creates averaged array by adding evrey 2 consecutive entries and diving by 2
+    #also adds last entry
+    lastEntry = [] 
+    for i in range(0,sound.shape[1]):
+        averaged[:,i] =  (middle[:-1,i] + middle[1:,i]) // 2
+        lastEntry.append((middle[-1,i] + after[0,i])//2)
+    averaged = np.vstack((averaged,lastEntry), dtype="int16")
+
+    #combines averages and middle
+    middle= [val for pair in zip(middle, averaged) for val in pair]
+
+    #combines into sound array
     sound = np.concatenate((before,middle,after), dtype= "int16")
     return sound
-    

@@ -84,21 +84,25 @@ def plotFourierTransform(sound):
 def modulateSpeed(sound,amount):
     start = 0
     length =0
+    end=0
+    increment = int(sound.shape[0]/amount)
     for i in range (0,amount):
         #creates start and lenght of slowed down portion
         size= sound.shape[0]
         
-        start = random.randint(start+length+1000, int(sound.shape[0]))
-        length = int(random.gauss(size/5,size/10))
+        start = random.randint(end+100, end +100 + increment*2)
+        length = int(random.gauss(size/(amount*4),size/(amount*4)))
 
         if(start+length > size):
             return sound
 
         if(length<0):
-            return sound
+            length=increment
 
         sound = _slowDownFactor2(sound,start,length)
-    
+        end= start + length
+        print(i)
+
     return sound
 
 
@@ -109,18 +113,9 @@ def _slowDownFactor2(sound,start,length):
     before = sound[:start]
     middle= sound[start:start+length]
     after = sound[start+length:]
-    averaged = np.zeros((length-1,middle.shape[1]), dtype= "int16")
-
-    #creates averaged array by adding evrey 2 consecutive entries and diving by 2
-    #also adds last entry
-    lastEntry = [] 
-    for i in range(0,sound.shape[1]):
-        averaged[:,i] =  (middle[:-1,i] + middle[1:,i]) // 2
-        lastEntry.append((middle[-1,i] + after[0,i])//2)
-    averaged = np.vstack((averaged,lastEntry), dtype="int16")
 
     #combines averages and middle
-    middle= [val for pair in zip(middle, averaged) for val in pair]
+    middle= [val for pair in zip(middle, middle) for val in pair]
 
     #combines into sound array
     sound = np.concatenate((before,middle,after), dtype= "int16")

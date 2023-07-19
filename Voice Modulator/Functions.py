@@ -29,8 +29,8 @@ def addNoise(sound,noiseLevel):
     if(noiseLevel<0):
         raise Exception ("Noise Level is negative")
 
-    noise = np.random.normal(0,abs(noiseLevel*sound),size= sound.shape)
-    sound = sound+noise
+    noise = np.random.normal(1, noiseLevel,size= sound.shape)
+    sound = np.multiply(sound,noise)
     return sound
 
 #uses a low pass filter to make it low pitched
@@ -100,7 +100,7 @@ def modulateSpeed(sound,amount):
             length=increment
 
         sound = _slowDownFactor2(sound,start,length)
-        end= start + length
+        end= start + 2*length
         print(i)
 
     return sound

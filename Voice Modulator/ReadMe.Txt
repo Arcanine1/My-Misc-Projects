@@ -11,3 +11,5 @@ addNoise() : adds noise to the signal
 
 Lowpitched: uses a low pass filter/ moving average to reduce high pitched sounds from the voice which 
             are often the most defining characteristcs
+
+Already have 2 practice files there for trial and error if you want to tune your voice modulation however you so choose

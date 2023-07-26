@@ -1,1 +1,1 @@
-C:\Users\ayush\OneDrive\Documents\GitHub\MyFiles\rust_things\target\debug\rust_things.exe: C:\Users\ayush\OneDrive\Documents\GitHub\MyFiles\rust_things\src\main.rs
+/Users/ayushgarg/Documents/MyCode/rust_things/target/debug/rust_things: /Users/ayushgarg/Documents/MyCode/rust_things/src/main.rs

@@ -1,5 +1,7 @@
-fn main() {
-    let x: i8 = 5; 
-    println!("Hello, world {}", x);
 
+
+
+fn main() {
+    let x: i8 = 12; 
+    println!("Hello, world {}", x);
 }

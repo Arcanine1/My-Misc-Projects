@@ -1,7 +1,8 @@
-
+use std::io;
 
 
 fn main() {
-    let x: i8 = 12; 
-    println!("Hello, world {}", x);
+    let mut input: String = String::new();
+    io::stdin().read_line(&mut input).expect("Failed to Read Line");
+    println!("{}", input)
 }

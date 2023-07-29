@@ -48,5 +48,8 @@
     "vector": "c",
     "__threading_support": "c",
     "type_traits": "c"
-  }
+  },
+  "rust-analyzer.linkedProjects": [
+    ".\\rust_factorizer\\Cargo.toml"
+  ]
 }

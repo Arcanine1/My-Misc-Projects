@@ -22,7 +22,7 @@ int count(bool arr[] ,int size, int target ){
 int main() {
 
 
-    int size =  pow(10,9);
+    int size =  pow(10,6);
     bool* numbers = (bool*) malloc(size * sizeof(bool)); //defines array
 
     //intial values

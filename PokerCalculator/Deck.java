@@ -21,6 +21,8 @@ public class Deck {
     public Card randomCard(){
         Random rand = new Random();
         int index = rand.nextInt(deck.size());
-        return deck.remove(index);
+        Card card = deck.get(index);
+        deck.remove(card);
+        return card;
     }
 }

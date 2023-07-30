@@ -45,6 +45,26 @@ public class Hand{
         return s;
     }
 
+    //if same 0
+    //if better 1
+    //if worse -1
+    public int better(Hand hand){
+
+        hand.calculateStrenght();
+        this.calculateStrenght();
+
+        for (int i=0; i<3; i++) {
+            if(this.strength[i]> hand.strength[i]){
+                return 1;
+            }
+            if(this.strength[i] < hand.strength[i]){
+                return -1;
+            }
+        }
+
+        return 0;
+    }
+
     //returns a double array which defines the strnrght
     //first is how good of a hand (straight flush, 4,etc) goes from 8 - 0
     //second determines how good within a hand (ace high etc)
@@ -418,7 +438,17 @@ public class Hand{
             }
         }
 
-        return max;
+        numbers.remove(Integer.valueOf(max));
+
+        //finds second highest card
+        int second= -1;
+        for (int number : numbers) {
+            if(number>second){
+                second=number;
+            }
+        }
+
+        return max + second/15;
     }
 
 }

@@ -5,12 +5,12 @@ import java.util.Random;
 
 public class Deck {
 
-    public ArrayList<Card> deck;
+    public ArrayList<Card> deck = new ArrayList<Card>();
     
     //creates deck of size deck size
     public Deck(){
         for (int suit =0; suit<4; suit++){
-                    for (int number =1; number<14; number++){
+                    for (int number =2; number<15; number++){
                         Card card =  new Card (suit,number);
                         deck.add(card);
             }

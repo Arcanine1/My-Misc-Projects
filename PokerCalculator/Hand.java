@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class Hand{
 
-    public ArrayList<Card> hand;
+    public ArrayList<Card> hand = new ArrayList<Card>();
     private Deck deck;
     public double [] strength = {0,0,0};
 
@@ -21,8 +21,14 @@ public class Hand{
     }
 
 
+    //adds card without deck
+    public void addCard(Card card){
+        hand.add(card);
+    }
+
+
     //adds card to hand if less than 7 hands
-    public void addCardFromDeck(){
+    public void newCard(){
         if(hand.size()>7){
             return;
         }
@@ -31,12 +37,13 @@ public class Hand{
         hand.add(card);
     }
 
-
-    //adds card without deck
-    public void addCard(Card card){
-        hand.add(card);
+    public String toString(){
+        String s ="";
+        for (Card card : hand) {
+            s= s+ card.suit + " " + card.card + "\n";
+        }
+        return s;
     }
-
 
     //returns a double array which defines the strnrght
     //first is how good of a hand (straight flush, 4,etc) goes from 8 - 0
@@ -73,7 +80,7 @@ public class Hand{
         //if its a flush you are done
         int flush = flush();
         if(flush != -1){
-            strength[0]= 4;
+            strength[0]= 5;
             strength[1]= flush;
             return strength;
         }
@@ -176,6 +183,8 @@ public class Hand{
             if(streak>=4){
                 match = number;
             }
+            previousNumber = number;
+
         }
 
         return match;
@@ -207,7 +216,7 @@ public class Hand{
             return-1;
         }
 
-        return (threeOfaKind + pair/15);
+        return (threeOfaKind + pair/15.0);
     }
    
     //determines if flush
@@ -278,6 +287,8 @@ public class Hand{
             if(streak>=5){
                 high = number;
             }
+            previousNumber = number;
+
         }
 
         return high;
@@ -313,6 +324,8 @@ public class Hand{
             if(streak>=3){
                 match = number;
             }
+            previousNumber = number;
+
         }
 
         return match;
@@ -344,7 +357,7 @@ public class Hand{
             return-1;
         }
 
-        return (highPair + pair/15);
+        return (highPair + pair/15.0);
     }
     
 
@@ -377,6 +390,7 @@ public class Hand{
             if(streak>=2){
                 match = number;
             }
+            previousNumber = number;
         }
 
         return match;

@@ -1,7 +1,22 @@
 {
   "version": "0.2.0",
   "configurations": [
+    {
+      "type": "java",
+      "name": "Client",
+      "request": "launch",
+      "mainClass": "PokerCalculator.Client",
+      "projectName": "MyProjects_686abf61",
+    },
     
+    {
+      "type": "java",
+      "name": "Debug (Launch)",
+      "request": "launch",
+      "justMyCode": true
+    },
+
+
     {
       "name": "C/C++ Runner: Debug Session",
       "type": "lldb",

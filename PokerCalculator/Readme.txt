@@ -1,5 +1,11 @@
-Current funcitonality is all in game class
+Simulates poker
 
-Type in the number of common cards and the number of players and it will simulate a poker game.
+Currently has no recourse for draws and awards win to lower number players
 
-Added functionality regarding probabilites coming soon
+To use set number of "random players" and number of "skill player" in probability.java
+
+random players are those whose pocket cards are random
+
+skill players pocket cards you can choose. Example of how is shown in probabily.java.
+
+Can also modify intial community cards by using addCommonCard method from Game Class

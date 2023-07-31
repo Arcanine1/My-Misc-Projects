@@ -12,4 +12,21 @@ public class Card{
         this.card = card;
     }
 
+    @Override
+    public boolean equals(Object o) {
+
+        //if same reference true
+        if (this == o) return true;
+
+        //if one is null or diffrent classes false
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Card card = (Card) o;
+
+        if(card.suit == this.suit && card.card == this.card){
+            return true;
+        }
+
+        return false;
+    }
 }

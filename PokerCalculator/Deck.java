@@ -25,4 +25,19 @@ public class Deck {
         deck.remove(card);
         return card;
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Object clone() {
+        Deck deck = null;
+        try {
+            deck = (Deck) super.clone();
+        } catch (CloneNotSupportedException e) {
+            deck = new Deck();
+        }
+
+        deck.deck = (ArrayList<Card>) this.deck.clone();
+
+        return deck;
+}
 }

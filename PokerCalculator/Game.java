@@ -26,6 +26,11 @@ public class Game {
         afterIntialCommonCardsDeck = (Deck) this.deck.clone();
         intialCommonCards = (ArrayList<Card>) commonCards.clone();
     }
+
+    public Game(int intialNumCommonCards, int numofHands, Deck deck){
+        this(intialNumCommonCards,numofHands);
+        this.deck =deck;
+    }
     
     //adds hand
     //make sure its less then 2 cards in hand 
@@ -63,12 +68,12 @@ public class Game {
 
         //makes hand variables
         for (int i=0; i<numofHands; i++){
-            hands.add(new Hand(afterIntialCommonCardsDeck));
+            hands.add(new Hand(deck));
         } 
 
         //adds rest of common  cards
         for (int i=0; i<5-intialNumCommonCards; i++){
-            commonCards.add(afterIntialCommonCardsDeck.randomCard());
+            commonCards.add(deck.randomCard());
         }   
 
         //intializes hands
@@ -80,8 +85,9 @@ public class Game {
             }
 
             //makes sure every player has 2 privte cards
-            for(int i =0; i< 7- hand.hand.size(); i++){
-            hand.newCard();
+            int size= hand.hand.size();
+            for(int i =0; i< 7-size; i++){
+                hand.newCard();
             }
 
             hand.calculateStrenght();
@@ -100,6 +106,7 @@ public class Game {
         int player = hands.indexOf(bestHand) + 1;
 
         //prints out best hand
+        System.out.println("player " +   player ); 
         System.out.println(bestHand + "\n"); 
         bestHand.calculateStrenght();
 
@@ -109,8 +116,10 @@ public class Game {
         System.out.println();
 
         //resets deck and common cards
-        afterIntialCommonCardsDeck = (Deck) this.deck.clone();
-        commonCards = (ArrayList<Card>) commonCards.clone();
+        deck = (Deck) this.afterIntialCommonCardsDeck.clone();
+        commonCards = (ArrayList<Card>) intialCommonCards.clone();
+        hands =  new ArrayList<Hand>(); 
+
 
         return player;
     }

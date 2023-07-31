@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private Deck deck = new Deck();
+    public Deck deck = new Deck();
     private int numofHands;
     private int intialNumCommonCards;
     public ArrayList<Hand> hands =  new ArrayList<Hand>(); 
@@ -25,11 +25,6 @@ public class Game {
 
         afterIntialCommonCardsDeck = (Deck) this.deck.clone();
         intialCommonCards = (ArrayList<Card>) commonCards.clone();
-    }
-
-    public Game(int intialNumCommonCards, int numofHands, Deck deck){
-        this(intialNumCommonCards,numofHands);
-        this.deck =deck;
     }
     
     //adds hand
@@ -71,6 +66,7 @@ public class Game {
 
         afterIntialCommonCardsDeck.deck.remove(card);
         intialCommonCards.add(card);
+        commonCards.add(card);
         deck.deck.remove(card);
         intialNumCommonCards++;
 
@@ -130,6 +126,14 @@ public class Game {
             System.out.println(d);
         }
         System.out.println();
+
+        if(hands.get(0).better(hands.get(1))== 0){
+            //resets deck and common cards
+            deck = (Deck) this.afterIntialCommonCardsDeck.clone();
+            commonCards = (ArrayList<Card>) intialCommonCards.clone();
+            hands =  new ArrayList<Hand>(); 
+            return 3;
+        }
 
         //resets deck and common cards
         deck = (Deck) this.afterIntialCommonCardsDeck.clone();

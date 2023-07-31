@@ -78,6 +78,7 @@ public class Hand{
         if(straightFlush != -1){
             strength[0]= 8;
             strength[1]= straightFlush;
+            strength[2]= straightFlush;
             return strength;
         }
 
@@ -94,6 +95,7 @@ public class Hand{
         if(fullHouse != -1){
             strength[0]= 6;
             strength[1]= fullHouse;
+            //strneght of 2 is equal to pair within method
             return strength;
         }
 
@@ -102,6 +104,7 @@ public class Hand{
         if(flush != -1){
             strength[0]= 5;
             strength[1]= flush;
+            strength[2]= flush;
             return strength;
         }
         
@@ -110,6 +113,7 @@ public class Hand{
         if(straight != -1){
             strength[0]= 4;
             strength[1]= straight;
+            strength[2]= straight;
             return strength;
         }
 
@@ -235,6 +239,8 @@ public class Hand{
         if(pair==-1){
             return-1;
         }
+
+        strength[2]=  pair;
 
         return (threeOfaKind + pair/15.0);
     }

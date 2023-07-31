@@ -55,7 +55,24 @@ public class Game {
                 }
             }
             afterIntialCommonCardsDeck.deck.remove(card);
+            deck.deck.remove(card);
         }
+
+    }
+
+        //adds hand
+    //make sure its less then 2 cards in hand 
+    public void addCommonCard(Card card) throws Exception{
+        for (Card commonCard:commonCards){
+            if(card.equals(commonCard)){
+                throw new Exception("card in Common Hand");
+            }
+        }
+
+        afterIntialCommonCardsDeck.deck.remove(card);
+        intialCommonCards.add(card);
+        deck.deck.remove(card);
+        intialNumCommonCards++;
 
     }
 
@@ -102,8 +119,7 @@ public class Game {
             }
         }
 
-        //gets index
-        int player = hands.indexOf(bestHand) + 1;
+        int player = hands.indexOf(bestHand) +1;
 
         //prints out best hand
         System.out.println("player " +   player ); 
@@ -120,7 +136,7 @@ public class Game {
         commonCards = (ArrayList<Card>) intialCommonCards.clone();
         hands =  new ArrayList<Hand>(); 
 
-
+        
         return player;
     }
 }

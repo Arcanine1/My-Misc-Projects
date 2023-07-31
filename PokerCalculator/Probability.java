@@ -4,7 +4,7 @@ public class Probability
 {
     public static void main(String[] args) throws Exception {
 
-        int randomPlayer = 1;
+        int randomPlayer = 5;
         int skillsPlayer=1;
         double plays = 100000;
         int [] winners =  new int[randomPlayer+skillsPlayer];
@@ -13,6 +13,7 @@ public class Probability
 
         for(int i =0; i<plays; i++){
 
+            //neccessary for each hand of skilled players
             Hand hand = new Hand();
             hand.addCard(new Card(0,14));
             hand.addCard(new Card(1,14));
@@ -21,7 +22,11 @@ public class Probability
             winners[game.simulateHand()-1]++;
         }
 
-        System.out.println(winners[0]/plays);
+        int j=0;
+        for (int i : winners) {
+            System.out.println("Player " + j + ": "  + i/plays);
+            j++;
+        }
 
     }
 }

@@ -419,7 +419,7 @@ public class Hand{
 
 
     //returns high card
-    private int highCard(){
+    private double highCard(){
 
          ArrayList<Integer> numbers = new ArrayList<Integer>(0);
         
@@ -448,7 +448,7 @@ public class Hand{
             }
         }
 
-        return max + second/15;
+        return max + second/15.0;
     }
 
 }
